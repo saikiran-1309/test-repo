@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             SizedBox(
-              height: height * 0.035,
+              height: height * 0.06,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 22.0),
@@ -205,8 +205,10 @@ class _LoginState extends State<Login> {
                                     : Icons.visibility_outlined,
                               ))),
                       validator: MultiValidator([
-                        RequiredValidator(errorText: 'pass cant be empty'),
-                        MinLengthValidator(9, errorText: '! 9 chartrs ')
+                        RequiredValidator(errorText: 'password cant be empty'),
+                        MinLengthValidator(8,
+                            errorText:
+                                'Password should be atleast 8 characters ')
                       ]),
                     ),
                   ),
@@ -230,10 +232,10 @@ class _LoginState extends State<Login> {
                   )),
             ),
             SizedBox(
-              height: height * 0.06,
+              height: height * 0.065,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.25),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.26),
               child: MaterialButton(
                 height: height * 0.08,
                 minWidth: width * 0.05,
@@ -259,7 +261,7 @@ class _LoginState extends State<Login> {
             Column(
               children: [
                 SizedBox(
-                  height: height * 0.02,
+                  height: height * 0.01,
                 ),
                 Container(
                   child: Row(
@@ -282,7 +284,7 @@ class _LoginState extends State<Login> {
                                 TextStyle(color: Colors.purple, fontSize: 14),
                           )),
                       SizedBox(
-                        height: height * 0.005,
+                        height: height * 0.003,
                       )
                     ],
                   ),

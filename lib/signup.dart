@@ -93,7 +93,7 @@ class _SignupState extends State<Signup> {
               ],
             ),
             SizedBox(
-              height: height * 0.01,
+              height: height * 0.02,
             ),
             Text(
               'Sign up to ',
@@ -126,29 +126,39 @@ class _SignupState extends State<Signup> {
               ),
             ),
             SizedBox(
-              height: height * 0.03,
+              height: height * 0.04,
             ),
             Form(
               key: formkey,
               child: Column(
                 children: [
-                  TextFormField(
-                    controller: _usernameTEC,
-                    decoration: InputDecoration(
-                      labelText: 'N A M E',
-                      labelStyle: GoogleFonts.ptSans(
-                          textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: isUserNameCheck == true
-                            ? Colors.blue
-                            : Colors.grey[700],
-                      )),
-                    ),
-                    validator: MinLengthValidator(3,
-                        errorText:
-                            'username should be atleast 3 characters long'),
+                  Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          'N A M E',
+                          style: GoogleFonts.ptSans(
+                              textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: isUserNameCheck == true
+                                ? Colors.blue
+                                : Colors.grey[700],
+                          )),
+                        ),
+                      )
+                    ],
                   ),
+                  TextFormField(
+                      controller: _usernameTEC,
+                      decoration: InputDecoration(),
+                      validator: MultiValidator([
+                        RequiredValidator(
+                            errorText: 'usernmae can\'t be empty'),
+                        MinLengthValidator(3,
+                            errorText:
+                                'username should be atleast 3 characters long'),
+                      ])),
                   SizedBox(
                     height: height * 0.03,
                   ),
@@ -176,7 +186,6 @@ class _SignupState extends State<Signup> {
                       hintStyle: TextStyle(
                           fontSize: width * 0.033, color: Colors.black),
                       hintTextDirection: TextDirection.rtl,
-                      counterStyle: TextStyle(fontSize: 12, color: Colors.blue),
                     ),
                     validator: MultiValidator([
                       EmailValidator(errorText: 'invalid email'),
@@ -204,32 +213,35 @@ class _SignupState extends State<Signup> {
                     ],
                   ),
                   TextFormField(
-                    controller: _passwordTEC,
-                    obscureText: isHiddenPassword,
-                    decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                          onTap: () {
-                            if (isHiddenPassword == true) {
-                              isHiddenPassword = false;
-                            } else {
-                              isHiddenPassword = true;
-                            }
-                            setState(() {});
-                          },
-                          child: Icon(
-                            isHiddenPassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                          )),
-                    ),
-                    validator: MinLengthValidator(8,
-                        errorText: 'Password should be 8 characters'),
-                  ),
+                      controller: _passwordTEC,
+                      obscureText: isHiddenPassword,
+                      decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              if (isHiddenPassword == true) {
+                                isHiddenPassword = false;
+                              } else {
+                                isHiddenPassword = true;
+                              }
+                              setState(() {});
+                            },
+                            child: Icon(
+                              isHiddenPassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            )),
+                      ),
+                      validator: MultiValidator([
+                        RequiredValidator(
+                            errorText: 'Password can\'t be empty'),
+                        MinLengthValidator(8,
+                            errorText: 'Password should be 8 characters'),
+                      ])),
                 ],
               ),
             ),
             SizedBox(
-              height: height * 0.08,
+              height: height * 0.06,
             ),
             Column(
               children: [
@@ -279,7 +291,7 @@ class _SignupState extends State<Signup> {
                                 TextStyle(color: Colors.orange, fontSize: 14),
                           )),
                       SizedBox(
-                        height: height * 0.001,
+                        height: height * 0.003,
                       )
                     ],
                   ),
