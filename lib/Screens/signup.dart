@@ -309,7 +309,7 @@ class _SignupState extends State<Signup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account? ',
+                        'Already have an account?',
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                       InkWell(
@@ -320,7 +320,7 @@ class _SignupState extends State<Signup> {
                                     builder: (context) => Login()));
                           },
                           child: Text(
-                            'Login',
+                            ' Login',
                             style:
                                 TextStyle(color: Colors.orange, fontSize: 14),
                           )),
