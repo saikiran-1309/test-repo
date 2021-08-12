@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:v_connect/models/usersignup/signupdata.dart';
 import 'login.dart';
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+Future<SignupData> createUserSignup(
+    String name, String email, String password) async {
+  final response = await http.post(
+    Uri.parse(''),
+    body: jsonEncode(<String, String>{
+      "name": name,
+      "email": email,
+      "password": password,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    final String responseString = response.body;
+
+    return SignupData.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('error');
+  }
+}
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -15,9 +39,12 @@ class _SignupState extends State<Signup> {
   TextEditingController _usernameTEC = TextEditingController();
   TextEditingController _emailTEC = TextEditingController();
   TextEditingController _passwordTEC = TextEditingController();
+  TextEditingController _confirmpasswordTEC = TextEditingController();
 
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isHiddenPassword = true;
+  bool isHiddenConfirmPassword = true;
+  bool isConfirmPasswordCheck = false;
   bool isPasswordCheck = false;
   bool isUserNameCheck = false;
   bool isEmailCheck = false;
@@ -132,26 +159,18 @@ class _SignupState extends State<Signup> {
               key: formkey,
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        child: Text(
-                          'N A M E',
-                          style: GoogleFonts.ptSans(
+                  TextFormField(
+                      controller: _usernameTEC,
+                      decoration: InputDecoration(
+                          labelText: 'N A M E',
+                          labelStyle: GoogleFonts.ptSans(
                               textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: isUserNameCheck == true
                                 ? Colors.blue
                                 : Colors.grey[700],
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
-                  TextFormField(
-                      controller: _usernameTEC,
-                      decoration: InputDecoration(),
+                          ))),
                       validator: MultiValidator([
                         RequiredValidator(
                             errorText: 'usernmae can\'t be empty'),
@@ -162,26 +181,18 @@ class _SignupState extends State<Signup> {
                   SizedBox(
                     height: height * 0.03,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        child: Text(
-                          'E M A I L',
-                          style: GoogleFonts.ptSans(
-                              textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: isEmailCheck == true
-                                ? Colors.blue
-                                : Colors.grey[700],
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
                   TextFormField(
                     controller: _emailTEC,
                     decoration: InputDecoration(
+                      labelText: 'E M A I L',
+                      labelStyle: GoogleFonts.ptSans(
+                          textStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: isEmailCheck == true
+                            ? Colors.blue
+                            : Colors.grey[700],
+                      )),
                       hintText: "Please sign up with your college email ID",
                       hintStyle: TextStyle(
                           fontSize: width * 0.033, color: Colors.black),
@@ -195,27 +206,19 @@ class _SignupState extends State<Signup> {
                   SizedBox(
                     height: height * 0.03,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        child: Text(
-                          'P A S S W O R D',
-                          style: GoogleFonts.ptSans(
-                              textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: isPasswordCheck == true
-                                ? Colors.blue
-                                : Colors.grey[700],
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
                   TextFormField(
                       controller: _passwordTEC,
                       obscureText: isHiddenPassword,
                       decoration: InputDecoration(
+                        labelText: 'P A S S W O R D',
+                        labelStyle: GoogleFonts.ptSans(
+                            textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: isPasswordCheck == true
+                              ? Colors.blue
+                              : Colors.grey[700],
+                        )),
                         suffixIcon: InkWell(
                             onTap: () {
                               if (isHiddenPassword == true) {
@@ -237,6 +240,38 @@ class _SignupState extends State<Signup> {
                         MinLengthValidator(8,
                             errorText: 'Password should be 8 characters'),
                       ])),
+                  TextFormField(
+                      controller: _confirmpasswordTEC,
+                      obscureText: isHiddenConfirmPassword,
+                      decoration: InputDecoration(
+                        labelText: 'C O N F I R M   P A S S W O R D',
+                        labelStyle: GoogleFonts.ptSans(
+                            textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: isConfirmPasswordCheck == true
+                              ? Colors.blue
+                              : Colors.grey[700],
+                        )),
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              if (isHiddenConfirmPassword == true) {
+                                isHiddenConfirmPassword = false;
+                              } else {
+                                isHiddenConfirmPassword = true;
+                              }
+                              setState(() {});
+                            },
+                            child: Icon(
+                              isHiddenConfirmPassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            )),
+                      ),
+                      validator: (val) {
+                        if (val != _passwordTEC.text)
+                          return "Password must be same as above";
+                      }),
                 ],
               ),
             ),
@@ -255,15 +290,14 @@ class _SignupState extends State<Signup> {
                     'Signup',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
-                  onPressed: () {
-                    var _username = _usernameTEC.text;
-                    var _email = _emailTEC.text;
-                    var _password = _passwordTEC.text;
+                  onPressed: () async {
                     if (formkey.currentState!.validate()) {
-                      print('SIGN UP CREDENTIALS.....');
-                      print('username : ' + _username);
-                      print('email : ' + _email);
-                      print('password : ' + _password);
+                      final String name = _usernameTEC.text;
+                      final String email = _emailTEC.text;
+                      final String password = _passwordTEC.text;
+
+                      final SignupData user =
+                          await createUserSignup(name, email, password);
                     }
                   },
                 ),
