@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'reset_pass.dart';
+import 'Screens/reset_pass.dart';
 
 void main() {
   runApp(MyApp());
