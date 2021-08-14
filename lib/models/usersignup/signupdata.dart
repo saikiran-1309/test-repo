@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:v_connect/models/usersignup/signupdata.dart';
-import 'dart:async';
 import 'dart:convert';
 
+// ignore: non_constant_identifier_names
 SignupData SignupDataFromJson(String str) =>
     SignupData.fromJson(json.decode(str));
 
