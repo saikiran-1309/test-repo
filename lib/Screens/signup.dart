@@ -256,7 +256,7 @@ class _SignupState extends State<Signup> {
                       controller: _confirmpasswordTEC,
                       obscureText: isHiddenConfirmPassword,
                       decoration: InputDecoration(
-                        labelText: 'C O N F I R M   P A S S W O R D',
+                        labelText: 'C O N F I R M  P A S S W O R D',
                         labelStyle: GoogleFonts.ptSans(
                             textStyle: TextStyle(
                           fontWeight: FontWeight.bold,
