@@ -144,7 +144,7 @@ class _LoginState extends State<Login> {
                 style: GoogleFonts.ptSans(
                     textStyle: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: isUserNameCheck == true ? 12 : 15,
                   color:
                       isUserNameCheck == true ? Colors.blue : Colors.grey[700],
                 )),
@@ -174,7 +174,7 @@ class _LoginState extends State<Login> {
                           style: GoogleFonts.ptSans(
                               textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: isPasswordCheck == true ? 12 : 15,
                             color: isPasswordCheck == true
                                 ? Colors.blue
                                 : Colors.grey[700],
@@ -261,7 +261,7 @@ class _LoginState extends State<Login> {
             Column(
               children: [
                 SizedBox(
-                  height: height * 0.01,
+                  height: height * 0.03,
                 ),
                 Container(
                   child: Row(
@@ -283,9 +283,6 @@ class _LoginState extends State<Login> {
                             style:
                                 TextStyle(color: Colors.purple, fontSize: 14),
                           )),
-                      SizedBox(
-                        height: height * 0.003,
-                      )
                     ],
                   ),
                 ),

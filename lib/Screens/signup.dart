@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 Future<SignupData> createUserSignup(
     String name, String email, String password) async {
   final response = await http.post(
-    Uri.parse(''),
+    Uri.parse('https://bvrit-connect.herokuapp.com/users/signup'),
     body: jsonEncode(<String, String>{
       "name": name,
       "email": email,
@@ -19,12 +19,12 @@ Future<SignupData> createUserSignup(
     }),
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     final String responseString = response.body;
 
     return SignupData.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('error');
+    throw Exception('error creating user');
   }
 }
 
@@ -60,6 +60,17 @@ class _SignupState extends State<Signup> {
     });
   }
 
+  void _checkConfirmPassword() {
+    setState(() {
+      if (isConfirmPasswordCheck == false) {
+        isConfirmPasswordCheck = true;
+      }
+      if (_confirmpasswordTEC.text == '') {
+        isConfirmPasswordCheck = false;
+      }
+    });
+  }
+
   void _checkEmail() {
     setState(() {
       if (isEmailCheck == false) {
@@ -87,6 +98,7 @@ class _SignupState extends State<Signup> {
     _passwordTEC.addListener(_checkPassword);
     _usernameTEC.addListener(_checkUserName);
     _emailTEC.addListener(_checkEmail);
+    _confirmpasswordTEC.addListener(_checkConfirmPassword);
     super.initState();
   }
 
@@ -95,6 +107,7 @@ class _SignupState extends State<Signup> {
     _passwordTEC.dispose();
     _usernameTEC.dispose();
     _emailTEC.dispose();
+    _confirmpasswordTEC.dispose();
     super.dispose();
   }
 
@@ -153,7 +166,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             SizedBox(
-              height: height * 0.04,
+              height: height * 0.03,
             ),
             Form(
               key: formkey,
@@ -276,7 +289,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             SizedBox(
-              height: height * 0.06,
+              height: height * 0.05,
             ),
             Column(
               children: [
