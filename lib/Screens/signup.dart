@@ -5,7 +5,6 @@ import 'package:v_connect/models/usersignup/signupdata.dart';
 import 'login.dart';
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 Future<SignupData> createUserSignup(
@@ -21,8 +20,8 @@ Future<SignupData> createUserSignup(
 
   if (response.statusCode == 200) {
     final String responseString = response.body;
-
-    return SignupData.fromJson(jsonDecode(response.body));
+    print(responseString);
+    return SignupData.fromJson(jsonDecode(responseString));
   } else {
     throw Exception('error creating user');
   }
@@ -296,7 +295,7 @@ class _SignupState extends State<Signup> {
                 MaterialButton(
                   height: height * 0.08,
                   minWidth: width * 0.5,
-                  color: Colors.purple,
+                  color: Color(0xff92087C),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   child: Text(
@@ -308,9 +307,7 @@ class _SignupState extends State<Signup> {
                       final String name = _usernameTEC.text;
                       final String email = _emailTEC.text;
                       final String password = _passwordTEC.text;
-
-                      final SignupData user =
-                          await createUserSignup(name, email, password);
+                      await createUserSignup(name, email, password);
                     }
                   },
                 ),
